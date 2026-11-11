@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sky Sports Demo · x402 micro-subscriptions</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="mark">SS</span>
+      <div>
+        <strong>Sky Sports Demo</strong>
+        <small>x402 sandbox · micro-subscriptions</small>
+      </div>
+    </div>
+    <div id="sub-pill" class="pill locked">No plans</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">HTTP 402 · stacked entitlements</p>
+      <h1>Buy the whole feed, or just Chelsea</h1>
+      <p>
+        The full plan is still <strong>$14.99 USDC / 30d</strong>.
+        Micro-subscriptions are cheaper x402 resources that only unlock matching fixtures.
+        They stack: pay for Chelsea, then Premier League, without replacing the first plan.
+      </p>
+    </section>
+
+    <section>
+      <h2>Plans</h2>
+      <div id="catalog" class="catalog"></div>
+    </section>
+
+    <section class="grid">
+      <article>
+        <h2>Challenge / response</h2>
+        <pre id="log">Loading catalog and live board…</pre>
+      </article>
+      <article>
+        <h2>Live board</h2>
+        <div id="board" class="board muted">Locked rows show which micro-plan would unlock them.</div>
+      </article>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

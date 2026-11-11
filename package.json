@@ -1,0 +1,18 @@
+{
+  "name": "sky-sports-x402-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local sandbox demo of an x402 paywall in front of a mock Sky Sports live feed.",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
+    "pay": "tsx src/client.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
