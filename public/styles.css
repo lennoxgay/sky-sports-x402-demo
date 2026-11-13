@@ -104,3 +104,23 @@ pre {
 .match.locked { opacity: 0.85; }
 .offers { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.35rem; }
 button.tiny { padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 600; }
+
+.wallet { color: var(--gold) !important; }
+.matches {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.fixture {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.fixture h3 { margin: 0; font-size: 1rem; }
+.fixture p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.teaser { flex: 1; }
+.fixture button { width: 100%; }

@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Local sandbox demo of an x402 paywall in front of a mock Sky Sports live feed.",
+  "description": "Pay.sh / x402 demo: pick one of 15 football matches and pay in USDC on Solana.",
   "scripts": {
-    "start": "tsx src/server.ts",
-    "dev": "tsx watch src/server.ts",
+    "build:web": "esbuild src/web/app.ts --bundle --outfile=public/app.js --format=iife",
+    "start": "npm run build:web && tsx src/server.ts",
+    "dev": "npm run build:web && tsx watch src/server.ts",
     "pay": "tsx src/client.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^22.15.29",
+    "esbuild": "^0.28.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@solana/pay-kit": "^0.13.1",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.99.0",
+    "express": "^5.3.0"
   }
 }

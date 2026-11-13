@@ -1,15 +1,19 @@
-# Conceptual pay.sh-style spec for this demo.
-# The runnable server is TypeScript (npm start); this YAML documents the paywall.
+# yaml-language-server: $schema=https://pay.sh/docs-assets/provider.schema.json
+# Pay.sh paywall spec for this football package.
+# The running demo uses @solana/pay-kit (same 402 stack). Optional:
+#   npx @solana/pay --sandbox gate api sky-sports.yml --bind 127.0.0.1:1402
+# only if you point routing at an ungated upstream — do not stack it on this server.
 
 name: sky-sports-demo
 subdomain: sky-sports
-title: "Sky Sports Demo"
-description: "Demo subscription access to sports highlights / live feed"
+title: "Sky Sports football package"
+description: "Pick any of 15 football matches and pay per report in USDC"
 category: media
 version: v1
 
 routing:
-  type: respond
+  type: proxy
+  url: http://127.0.0.1:1402/
 
 operator:
   currencies:
@@ -19,50 +23,17 @@ operator:
 
 endpoints:
   - method: GET
-    path: "api/v1/live"
-    resource: "sky-live"
-    description: "Full Sky Sports live / highlights feed"
-    subscription:
-      period: "30d"
-      price_usd: 14.99
-      currency: USDC
+    path: "api/v1/matches"
+    description: "Free weekend catalog"
 
   - method: GET
-    path: "api/v1/live"
-    resource: "sky-live:team:chelsea"
-    description: "Micro-subscription: Chelsea matches only"
-    subscription:
-      period: "30d"
-      price_usd: 2.99
-      currency: USDC
-      parent: sky-live
-
-  - method: GET
-    path: "api/v1/live"
-    resource: "sky-live:team:arsenal"
-    description: "Micro-subscription: Arsenal matches only"
-    subscription:
-      period: "30d"
-      price_usd: 2.99
-      currency: USDC
-      parent: sky-live
-
-  - method: GET
-    path: "api/v1/live"
-    resource: "sky-live:competition:premier-league"
-    description: "Micro-subscription: Premier League fixtures"
-    subscription:
-      period: "30d"
-      price_usd: 6.99
-      currency: USDC
-      parent: sky-live
-
-  - method: GET
-    path: "api/v1/live"
-    resource: "sky-live:competition:formula-1"
-    description: "Micro-subscription: Formula 1 only"
-    subscription:
-      period: "30d"
-      price_usd: 4.99
-      currency: USDC
-      parent: sky-live
+    path: "api/v1/matches/{id}"
+    resource: "match-report"
+    description: "Paid match report (pick one fixture)"
+    metering:
+      dimensions:
+        - direction: usage
+          unit: requests
+          scale: 1
+          tiers:
+            - price_usd: 0.0049

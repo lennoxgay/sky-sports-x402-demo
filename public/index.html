@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sky Sports Demo · x402 micro-subscriptions</title>
+  <title>Sky Sports · Pay.sh match pass</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -11,41 +11,43 @@
     <div class="brand">
       <span class="mark">SS</span>
       <div>
-        <strong>Sky Sports Demo</strong>
-        <small>x402 sandbox · micro-subscriptions</small>
+        <strong>Sky Sports football package</strong>
+        <small>Pay.sh · x402 · Solana USDC · not affiliated with Sky</small>
       </div>
     </div>
-    <div id="sub-pill" class="pill locked">No plans</div>
+    <button id="connect" type="button" class="ghost">Connect Solana wallet</button>
   </header>
 
   <main>
     <section class="hero">
-      <p class="kicker">HTTP 402 · stacked entitlements</p>
-      <h1>Buy the whole feed, or just Chelsea</h1>
+      <p class="kicker">15 matches · pick one · pay with Solana</p>
+      <h1>Unlock any fixture from the weekend package</h1>
       <p>
-        The full plan is still <strong>$14.99 USDC / 30d</strong>.
-        Micro-subscriptions are cheaper x402 resources that only unlock matching fixtures.
-        They stack: pay for Chelsea, then Premier League, without replacing the first plan.
+        Connect <strong>Phantom on Devnet</strong>, then Unlock. Phantom will ask you to send
+        the listed <strong>USDC</strong> (plus a little SOL for fees). After it confirms, the report opens.
+        Get Devnet SOL from <a href="https://faucet.solana.com" target="_blank" rel="noreferrer">faucet.solana.com</a>
+        and Devnet USDC from <a href="https://faucet.circle.com" target="_blank" rel="noreferrer">faucet.circle.com</a>
+        (mint <code>4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU</code>).
       </p>
+      <p id="wallet" class="wallet">Wallet: not connected</p>
     </section>
 
     <section>
-      <h2>Plans</h2>
-      <div id="catalog" class="catalog"></div>
+      <h2>Weekend package</h2>
+      <div id="grid" class="matches"></div>
     </section>
 
     <section class="grid">
       <article>
-        <h2>Challenge / response</h2>
-        <pre id="log">Loading catalog and live board…</pre>
+        <h2>Payment trace</h2>
+        <pre id="log">Pick a match. Unpaid GET returns HTTP 402 from Pay.sh / pay-kit.</pre>
       </article>
       <article>
-        <h2>Live board</h2>
-        <div id="board" class="board muted">Locked rows show which micro-plan would unlock them.</div>
+        <h2>Unlocked report</h2>
+        <div id="report" class="board muted">Scores and commentary appear after settlement.</div>
       </article>
     </section>
   </main>
-
   <script src="/app.js"></script>
 </body>
 </html>

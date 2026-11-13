@@ -1,8 +1,10 @@
-# Sky Sports x402 demo
+# Sky Sports Pay.sh demo
 
-Local sandbox of the [x402](https://www.x402.org/) paywall pattern: a mock Sky Sports live feed with a **full** 30-day plan and cheaper **micro-subscriptions** (Chelsea only, Arsenal only, Premier League, F1).
+Pick **one of 15 football matches** from a weekend package and unlock the report with **Pay.sh / x402** in USDC on Solana.
 
-This is illustrative. Sky Sports does not expose an x402 endpoint, and no real funds move.
+The catalog is free. Each match report is a one-shot charge (`$0.0049` or `$0.0099` for derbies) in Devnet USDC so tests stay cheap.
+
+Not affiliated with Sky.
 
 ## Run
 
@@ -11,29 +13,23 @@ npm install
 npm start
 ```
 
-Open [http://127.0.0.1:1402](http://127.0.0.1:1402).
+Open [http://127.0.0.1:1402](http://127.0.0.1:1402). Connect a Solana wallet (Phantom) to identify the payer, pick a fixture, then **Unlock with Solana**.
 
-Buy a slice from the CLI (defaults to Chelsea):
+Pay.sh CLI (your Pay.sh sandbox wallet, auto-funded):
 
 ```bash
-npm run pay
-npm run pay -- --resource sky-live:competition:premier-league
+npx @solana/pay --sandbox --x402 curl http://127.0.0.1:1402/api/v1/matches/m12
+npm run pay -- m04
 ```
 
-## How micro-subscriptions work
+On Windows the npm `pay` wrapper needs `unzip`. If that fails, use [pay.sh install docs](https://pay.sh/docs/building-with-pay/getting-started) or Git for Windows and retry.
 
-Each product is its own x402 **resource**:
+## What is using Pay.sh
 
-| Resource | Price | Unlocks |
-| --- | --- | --- |
-| `sky-live` | $14.99 | Entire board |
-| `sky-live:team:chelsea` | $2.99 | Fixtures that include Chelsea |
-| `sky-live:team:arsenal` | $2.99 | Fixtures that include Arsenal |
-| `sky-live:competition:premier-league` | $6.99 | Premier League fixtures |
-| `sky-live:competition:formula-1` | $4.99 | F1 only |
+| Piece | Role |
+| --- | --- |
+| `@solana/pay-kit` | Official Pay TypeScript SDK. Issues HTTP **402**, verifies x402/MPP, settles USDC on Surfpool. |
+| `npx @solana/pay` | Pay.sh CLI. Signs with a sandbox Solana wallet and retries with payment proof. |
+| `sky-sports.yml` | Pay.sh gateway spec for the same 15-match package. |
 
-Plans **stack** on the same payer. A Chelsea micro unlocks Chelsea rows; other rows stay locked until you buy another slice or the full plan. Full access covers every micro.
-
-- `GET /api/v1/live` — mixed board (locked rows include `offers`)
-- `GET /api/v1/live?resource=sky-live:team:chelsea` — classic **402** unless that slice (or full) is paid
-- `POST /sandbox/pay` with `{ "resource": "sky-live:team:chelsea" }` — sandbox-settle that slice
+`GET /api/v1/matches` is free. `GET /api/v1/matches/:id` is gated. `POST /api/v1/checkout/:id` pays that 402 with the Pay.sh **demo sandbox wallet**.
