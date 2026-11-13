@@ -113,7 +113,7 @@ app.post("/api/v1/pay/confirm", async (req, res) => {
     match: `${match.home} vs ${match.away}`,
     priceUsd: match.priceUsd,
     signature,
-    explorer: `https://explorer.solana.com/tx/${signature}?cluster=devnet`,
+    explorer: `https://solscan.io/tx/${encodeURIComponent(signature)}?cluster=devnet`,
     result: result.report,
   });
 });

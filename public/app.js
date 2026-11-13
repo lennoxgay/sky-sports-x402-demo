@@ -16638,12 +16638,14 @@ Message: ${transactionMessage}.
     </div>
   `).join("");
   }
-  function showReport(payload) {
+  function showReport(payload, explorer) {
     report.classList.remove("muted");
+    const tx = explorer && explorer.startsWith("http") ? `<p><a href="${explorer}" target="_blank" rel="noopener noreferrer">View Devnet transaction</a></p>` : "";
     report.innerHTML = `
     <div class="headline">${payload.home} ${payload.score} ${payload.away}</div>
     <div class="meta">${payload.competition} \xB7 ${payload.venue} \xB7 paid ${payload.priceUsd} ${payload.asset ?? "USDC"}</div>
     <p>${payload.report}</p>
+    ${tx}
   `;
   }
   async function probe(id) {
@@ -16674,7 +16676,7 @@ Message: ${transactionMessage}.
       const raw = Uint8Array.from(atob(prepared.transaction), (c) => c.charCodeAt(0));
       const tx = Transaction.from(raw);
       const sent = await provider.signAndSendTransaction(tx);
-      log("Phantom submitted Devnet tx", { signature: sent.signature, explorer: `https://explorer.solana.com/tx/${sent.signature}?cluster=devnet` });
+      log("Phantom submitted Devnet tx", { signature: sent.signature, explorer: `https://solscan.io/tx/${sent.signature}?cluster=devnet` });
       const confirmed = await fetch("/api/v1/pay/confirm", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -16683,7 +16685,7 @@ Message: ${transactionMessage}.
       const data = await confirmed.json();
       log(`${confirmed.status} POST /api/v1/pay/confirm`, data);
       if (confirmed.ok && data.result?.paid) {
-        showReport(data.result);
+        showReport(data.result, data.explorer);
       } else {
         report.textContent = data.error || "Payment not confirmed on Devnet.";
       }
